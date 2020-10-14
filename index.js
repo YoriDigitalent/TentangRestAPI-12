@@ -5,11 +5,13 @@ import express from 'express'
 import morgan from 'morgan'
 import mongoose from 'mongoose'
 import router from './router.js'
+import userRouter from './controllers/UserController.js'
 
 const app = express()
 
 // Connect to DB
-mongoose.connect(process.env.MONGODB_URI,
+const URI = process.env.MONGODB_URI
+mongoose.connect(URI,
     {
         useNewUrlParser: true, 
         useUnifiedTopology: true,
@@ -36,6 +38,9 @@ app.get('/', (req, res) => {
 app.use('/api', router)
 // http://localhost/api/homeworks
 
+app.use('/api/users', userRouter)
+
+//listen to port
 const PORT = process.env.PORT || '4000'
 
 app.listen(PORT, () => {
